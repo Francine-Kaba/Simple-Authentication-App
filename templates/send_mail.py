@@ -1,40 +1,30 @@
 import os
 import smtplib
-import traceback
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-sender_email = os.getenv("HOST_EMAIL")
-sender_password = os.getenv("HOST_PASSWORD")
-smtp_server = os.getenv("SMTP_SERVER")
-smtp_port = os.getenv("SMTP_PORT")
+sender_email = os.getenv("SOURCE_EMAIL")
+mail_user = os.getenv("MAIL_USERNAME")
+sender_password = os.getenv("MAIL_PASSWORD")
+smtp_server = os.getenv("MAIL_HOST")
+smtp_port = os.getenv("MAIL_PORT")
 
 
 def send_email(details, html_body):
-    try:
-        # Create a MIMEText object for the email content
-        html_content = html_body.format(**details)
-
-        msg = MIMEMultipart()
-        msg['From'] = sender_email
-        msg['To'] = details["recipient_email"]
-        msg['Subject'] = details["subject"]
-        msg.attach(MIMEText(html_content, "html"))
-
-        # Connect to the SMTP server and start TLS encryption
-        server = smtplib.SMTP(smtp_server, smtp_port)
+    recipient = details['recipient_email']
+    message = MIMEMultipart()
+    message["From"] = sender_email
+    message["To"] = recipient
+    message["Subject"] = details['subject']
+    
+    html_content = html_body.format(**details)
+    part1 = MIMEText(html_content, "html")
+    message.attach(part1)
+    
+    with smtplib.SMTP(smtp_server, smtp_port) as server:
         server.starttls()
+        server.login(mail_user, sender_password)
+        server.sendmail(sender_email, recipient, message.as_string())
 
-        # Login to the SMTP server
-        server.login(sender_email, sender_password)
+    return True
 
-        # Send the email
-        server.sendmail(sender_email, details["recipient_email"], msg.as_string())
-
-        # Quit the SMTP server
-        server.quit()
-
-        print("Email sent successfully!")
-    except Exception as e:
-        traceback.print_exc()
-        print("An error occurred while sending the email:", e)
