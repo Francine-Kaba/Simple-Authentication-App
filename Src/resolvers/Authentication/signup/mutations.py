@@ -3,7 +3,7 @@ import jwt
 import bcrypt
 from prisma import Prisma
 from graphql import GraphQLError
-from helpers.auth import is_authenticated
+# from helpers.auth import is_authenticated
 from helpers.prisma_connect import connect_to_prisma
 from datetime import datetime, timedelta, timezone
 from templates.email_template import html_body
@@ -39,10 +39,7 @@ class Signup:
                 'name': name,
                 'body': "Welcome to the Simple Auth App designed by moi. I hope you enjoy your stay.",
                 'extra_detail': "Kind Regards.",
-                'instruction': f"Hello there {name}.",
-                "button": "Click Me!",
-                'message': 'Sign Up',
-                "link_url": "https://example.com"
+                "button": "Click Me!"
                 }
 
             send_email(details, html_body)
