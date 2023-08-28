@@ -9,7 +9,6 @@ from datetime import datetime, timedelta, timezone
 from templates.email_template import html_body
 from templates.send_mail import send_email
 
-
 prisma = Prisma()
 user_exists_error = "User already exists"
 user_does_not_exists_error = "User does not exists"

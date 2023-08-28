@@ -21,3 +21,13 @@ password     String
 created_at   DateTime
 }
 
+
+// model for the audit log
+model audit_log{
+id            Int       @id @default(autoincrement())
+timestamp     DateTime @default(now())
+userId        Int
+action        String
+details       String?
+}
+

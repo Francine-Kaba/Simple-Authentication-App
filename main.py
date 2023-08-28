@@ -3,7 +3,10 @@ from ariadne.contrib.federation import (FederatedObjectType, make_federated_sche
 from ariadne.asgi import GraphQL
 from Src.resolvers.Authentication.signup.mutations import Login, Signup
 from Src.resolvers.Authentication.signup.query import UserQuery
+from flask import Flask
+from decorater import custom_decorator
 
+app = Flask(__name__)
 
 type_defs = load_schema_from_path("schema")
 
