@@ -7,6 +7,10 @@ extend schema
 type Mutation {
   signUp(input: signUpInput) : user
   login(input: loginInput) : user_token
+
+  # audit  log
+  auditLog(input: auditLogInput) : auditLogs
+
 }
 
 type Query {    
@@ -34,3 +38,18 @@ input  loginInput {
   email:                   String
   password:                String    
 }
+
+type  auditLogs{
+id:            Int
+timestamp:     String
+userId:        Int
+details:       String
+}       
+
+
+input  auditLogInput {
+id:            Int
+timestamp:     String
+userId:        Int
+details:       String
+}       
