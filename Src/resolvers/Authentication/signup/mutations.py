@@ -3,11 +3,11 @@ import jwt
 import bcrypt
 from prisma import Prisma
 from graphql import GraphQLError
-# from helpers.auth import is_authenticated
 from helpers.prisma_connect import connect_to_prisma
 from datetime import datetime, timedelta, timezone
-from templates.email_template import html_body
-from templates.send_mail import send_email
+# from helpers.auth import is_authenticated
+# from templates.email_template import html_body
+# from templates.send_mail import send_email
 
 prisma = Prisma()
 user_exists_error = "User already exists"
@@ -31,17 +31,6 @@ class Signup:
 
             hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
             hashed_password = hashed_password.decode()
-
-            details = {
-                'recipient_email': email,
-                "subject": "Confirmation Email",
-                'name': name,
-                'body': "Welcome to the Simple Auth App designed by moi. I hope you enjoy your stay.",
-                'extra_detail': "Kind Regards.",
-                "button": "Click Me!"
-                }
-
-            send_email(details, html_body)
             
             return await prisma.user.create(
                 data={

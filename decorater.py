@@ -1,10 +1,7 @@
 from datetime import datetime
 from functools import wraps
-
 from prisma import Prisma
-
 from helpers.prisma_connect import connect_to_prisma
-# from flask import request
 
 prisma = Prisma()
 
